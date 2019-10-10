@@ -36,4 +36,4 @@ const shortUrl = () => {
 
 ## Screenshot
 
-![Capture](https://user-images.githubusercontent.com/28656259/66559060-58324780-eb72-11e9-93b6-0e98d7bfeabc.PNG)
+![Capture](https://user-images.githubusercontent.com/28656259/66578018-fe447880-eb97-11e9-93ec-28fed5ef3557.PNG)
