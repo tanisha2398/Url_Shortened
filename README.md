@@ -2,7 +2,31 @@
 
 ## Shortening Algorithm
 
-### Whenever user request to shorten a big Url we store the big url to the mongoDB database and send back the url with its id appended(which will make sure there will be no conflict between two urls as id will always be unique) and on hitting that url user will be redirected to the original url.
+#### shortening function will generate a 6 digit random string
+
+```javascript
+const shortUrl = () => {
+  var randomString = "";
+  var length = 6;
+  while (length) {
+    let randNum = Math.floor(Math.random() * 36);
+    if (randNum >= 26) {
+      randNum = randNum % 26;
+    } else {
+      var isCapital = Math.floor(Math.random() * 2);
+      randNum =
+        isCapital == 0
+          ? String.fromCharCode(randNum + 65)
+          : String.fromCharCode(randNum + 97);
+    }
+    randomString += randNum;
+    length--;
+  }
+  return randomString;
+};
+```
+
+### Whenever user request to shorten a big Url we store the big url as well as the shortString(6 digit random alphanumeric value) to the mongoDB database and send back the shortUrl as a response .And on hitting that url user will be redirected to the original big url.
 
 ## Component
 
