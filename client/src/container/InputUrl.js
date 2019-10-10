@@ -22,12 +22,12 @@ class InputUrl extends Component {
       loading: true,
     });
     event.preventDefault();
-    axios.post("http://localhost:5000/", {
+    axios.post("https://tinysa.herokuapp.com/", {
       url: this.state.value
     }).then(res => {
       this.setState({
         loading: false,
-        shortUrl: `http://localhost:5000/${res.data}`,
+        shortUrl: `https://tinysa.herokuapp.com/${res.data}`,
         value: ""
       });
     }).catch(err => {
