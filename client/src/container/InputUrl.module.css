@@ -1,11 +1,11 @@
-.main{
+.main {
   width: 100%;
 }
 
-.copy{
+.copy {
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
 }
 
 .InputUrlText {
@@ -23,12 +23,12 @@
   outline: none;
 }
 .InputUrlButton {
-  display: inline-block;
+  display: flex;
   padding: 0.5em 3em;
   width: 30%;
   height: 30%;
   border: 0.16em solid #ffffff;
-  margin: 0 0.3em 0.3em 0;
+  margin: auto;
   box-sizing: border-box;
   text-decoration: none;
   outline: none;
@@ -38,6 +38,7 @@
   color: black;
   text-align: center;
   transition: all 0.15s;
+  justify-content: center;
 }
 
 .InputUrlButton:hover {
@@ -50,9 +51,16 @@
   border-color: grey;
   outline: none;
 }
-@media all and (max-width: 30em) {
+/* @media all and (max-width: 30em) {
    .InputUrlButton {
     display: block;
     margin: 0.4em auto;
+  }
+} */
+@media screen and (min-width: 550px) {
+   .InputUrlButton {
+    display: block;
+    margin: auto;
+    text-align: center;
   }
 }

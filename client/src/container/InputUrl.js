@@ -24,6 +24,7 @@ class InputUrl extends Component {
 
   handleSubmit(event) {
     this.setState({
+      error: false,
       loading: true
     });
     event.preventDefault();
@@ -63,7 +64,7 @@ class InputUrl extends Component {
     let button = this.state.loading ? (
       <Spinner />
     ) : (
-      <button className={classes.InputUrlButton}>Generate URL</button>
+      <button className={classes.InputUrlButton}>Submit</button>
     );
     return (
       <div className={classes.main}>
