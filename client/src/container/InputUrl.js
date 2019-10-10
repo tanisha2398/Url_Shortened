@@ -1,12 +1,18 @@
 import React, { Component } from "../../node_modules/react";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import classes from "./InputUrl.module.css";
-import axios from '../../node_modules/axios';
-import Spinner from '../components/Spinner';
+import axios from "../../node_modules/axios";
+import Spinner from "../components/Spinner";
 class InputUrl extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: "", loading: false, shortUrl: "", copied: false, error: false };
+    this.state = {
+      value: "",
+      loading: false,
+      shortUrl: "",
+      copied: false,
+      error: false
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,39 +23,48 @@ class InputUrl extends Component {
   }
 
   handleSubmit(event) {
-    // alert("A name was submitted: " + this.state.value);
     this.setState({
-      loading: true,
+      loading: true
     });
     event.preventDefault();
-    axios.post("https://tinysa.herokuapp.com/", {
-      url: this.state.value
-    }).then(res => {
-      this.setState({
-        loading: false,
-        shortUrl: `https://tinysa.herokuapp.com/${res.data}`,
-        value: ""
-      });
-    }).catch(err => {
-      this.setState({
-        error: true,
-        loading: false
+    axios
+      .post("https://tinysa.herokuapp.com/", {
+        url: this.state.value
       })
-    })
+      .then(res => {
+        this.setState({
+          loading: false,
+          shortUrl: `https://tinysa.herokuapp.com/${res.data}`,
+          value: ""
+        });
+      })
+      .catch(err => {
+        this.setState({
+          error: true,
+          loading: false
+        });
+      });
   }
   render() {
-    let errorText = (this.state.error) ? (<h1>something went wrong 😭</h1>) : null;
-    let copyText = (this.state.copied) ? (<h1>Copied &#128077;</h1>) : null;
-    let link = (this.state.shortUrl !== "") ? (
-      <div className={classes.copy}>
-        <h4>{this.state.shortUrl}</h4>
-        <CopyToClipboard text={this.state.shortUrl}
-          onCopy={() => this.setState({ copied: true })}>
-          <button>Copy</button>
-        </CopyToClipboard>
-      </div>
-    ) : null;
-    let button = (this.state.loading) ? <Spinner /> : <button className={classes.InputUrlButton}>Generate URL</button>;
+    let errorText = this.state.error ? <h1>something went wrong 😭</h1> : null;
+    let copyText = this.state.copied ? <h1>Copied &#128077;</h1> : null;
+    let link =
+      this.state.shortUrl !== "" ? (
+        <div className={classes.copy}>
+          <h4>{this.state.shortUrl}</h4>
+          <CopyToClipboard
+            text={this.state.shortUrl}
+            onCopy={() => this.setState({ copied: true })}
+          >
+            <button>Copy</button>
+          </CopyToClipboard>
+        </div>
+      ) : null;
+    let button = this.state.loading ? (
+      <Spinner />
+    ) : (
+      <button className={classes.InputUrlButton}>Generate URL</button>
+    );
     return (
       <div className={classes.main}>
         <form className={classes.InputUrlForm} onSubmit={this.handleSubmit}>
