@@ -1,0 +1,58 @@
+.main{
+  width: 100%;
+}
+
+.copy{
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.InputUrlText {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+.InputUrlForm {
+  width: 50%;
+  margin: auto;
+}
+.InputUrlText:focus {
+  border: 5px solid rgb(201, 197, 197);
+  outline: none;
+}
+.InputUrlButton {
+  display: inline-block;
+  padding: 0.5em 3em;
+  width: 30%;
+  height: 30%;
+  border: 0.16em solid #ffffff;
+  margin: 0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  color: black;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.InputUrlButton:hover {
+  color: grey;
+  border-color: grey;
+  outline: none;
+}
+.InputUrlButton:active {
+  color: grey;
+  border-color: grey;
+  outline: none;
+}
+@media all and (max-width: 30em) {
+   .InputUrlButton {
+    display: block;
+    margin: 0.4em auto;
+  }
+}
