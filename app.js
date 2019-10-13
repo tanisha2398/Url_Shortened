@@ -28,14 +28,20 @@ app.get("/:id", (req, res) => {
 
 app.post("/", (req, res) => {
   let { url } = req.body;
-  let shortUrl = shorteningAlgo.shortUrl();
-  const urlDb = new Url({
-    url,
-    shortUrl
-  });
-  urlDb.save((err, url) => {
+  Url.findOne({ url: url }, (err, url) => {
     if (err) {
-      console.log(err);
+      let shortUrl = shorteningAlgo.shortUrl();
+      const urlDb = new Url({
+        url,
+        shortUrl
+      });
+      urlDb.save((err, url) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(url.shortUrl);
+        }
+      });
     } else {
       res.send(url.shortUrl);
     }
