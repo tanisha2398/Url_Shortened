@@ -42,16 +42,12 @@ class InputUrl extends Component {
       .catch(err => {
         this.setState({
           error: true,
-          loading: false,
-          shortUrl: `https://tinysa.herokuapp.com/${res.data}`,
-          value: ""
+          loading: false
         });
       });
   }
   render() {
-    let errorText = this.state.error ? (
-      <h1>Already shortened with url 😭</h1>
-    ) : null;
+    let errorText = this.state.error ? <h1>something went wrong 😭</h1> : null;
     let copyText = this.state.copied ? <h1>Copied &#128077;</h1> : null;
     let link =
       this.state.shortUrl !== "" ? (
