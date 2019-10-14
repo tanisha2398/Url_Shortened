@@ -27,23 +27,46 @@ app.get("/:id", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  let { url } = req.body;
-  Url.findOne({ url: url }, (err, url) => {
+  var url = req.body.url;
+  var shortUrl = shorteningAlgo.shortUrl();
+
+  Url.findOne({ url: url }, (err, furl) => {
     if (err) {
-      let shortUrl = shorteningAlgo.shortUrl();
-      const urlDb = new Url({
-        url,
-        shortUrl
-      });
-      urlDb.save((err, url) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.send(url.shortUrl);
-        }
-      });
+      console.log(err);
     } else {
-      res.send(url.shortUrl);
+      if (furl == null) {
+        console.log("furl===", furl);
+
+        Url.findOne({ shortUrl: shortUrl }, (err, alreadypresent) => {
+          if (err) {
+            console.log(err);
+          } else {
+            if (alreadypresent == null) {
+              console.log("not shortuurl present in db");
+              shortUrl = shortUrl;
+              return (breakTheLoop = true);
+            } else {
+              shortUrl = shorteningAlgo.shortUrl();
+              console.log(shortUrl);
+            }
+          }
+        });
+
+        var newField = {
+          url: url,
+          shortUrl: shortUrl
+        };
+        Url.create(newField, (err, newlyCreatedUrl) => {
+          if (err) {
+            console.log(err);
+          } else {
+            // console.log(newlyCreatedUrl);
+            res.send(newlyCreatedUrl.shortUrl);
+          }
+        });
+      } else {
+        res.send(furl.shortUrl);
+      }
     }
   });
 });
