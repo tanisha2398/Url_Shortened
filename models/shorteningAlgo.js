@@ -1,23 +1,25 @@
-const shortUrl = () => {
-  var randomString = "";
-  var length = 6;
-  while (length) {
-    let randNum = Math.floor(Math.random() * 36);
-    if (randNum >= 26) {
-      randNum = randNum % 26;
-    } else {
-      var isCapital = Math.floor(Math.random() * 2);
-      randNum =
-        isCapital == 0
-          ? String.fromCharCode(randNum + 65)
-          : String.fromCharCode(randNum + 97);
-    }
-    randomString += randNum;
-    length--;
+const shortUrl = id => {
+  var shorturl = "";
+  var charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  // console.log(charset[3]);
+  while (id) {
+    num = id % 62;
+    shorturl += charset[num];
+    id = Math.floor(id / 62);
   }
-  return randomString;
+
+  // console.log(shorturl);
+  reverse = shorturl
+    .split("")
+    .reverse()
+    .join("");
+
+  return reverse;
 };
 
+// shortUrlToId;
+// shortUrl(66);
 module.exports = {
   shortUrl
 };

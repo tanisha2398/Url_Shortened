@@ -8,6 +8,7 @@ const port = process.env.PORT || 5000;
 var shorteningAlgo = require("./models/shorteningAlgo");
 var { mongoose } = require("./models/mongoose");
 var Url = require("./models/url");
+var Counter = require("./models/counter");
 
 // additional configuration
 app.use(cors());
@@ -26,49 +27,49 @@ app.get("/:id", (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
-  var url = req.body.url;
-  var shortUrl = shorteningAlgo.shortUrl();
-
-  Url.findOne({ url: url }, (err, furl) => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (furl == null) {
-        console.log("furl===", furl);
-
-        Url.findOne({ shortUrl: shortUrl }, (err, alreadypresent) => {
-          if (err) {
-            console.log(err);
-          } else {
-            if (alreadypresent == null) {
-              console.log("not shortuurl present in db");
-              shortUrl = shortUrl;
-              return (breakTheLoop = true);
-            } else {
-              shortUrl = shorteningAlgo.shortUrl();
-              console.log(shortUrl);
-            }
-          }
-        });
-
-        var newField = {
-          url: url,
-          shortUrl: shortUrl
-        };
-        Url.create(newField, (err, newlyCreatedUrl) => {
-          if (err) {
-            console.log(err);
-          } else {
-            // console.log(newlyCreatedUrl);
-            res.send(newlyCreatedUrl.shortUrl);
-          }
-        });
+app.post("/", (req, res, next) => {
+  try {
+    let { url } = req.body;
+    // let shortUrl = shorteningAlgo.shortUrl();
+    Url.findOne({ url: url }, (err, foundUrl) => {
+      if (err) {
+        console.log(err);
       } else {
-        res.send(furl.shortUrl);
+        if (foundUrl == null) {
+          const urlDb = new Url({
+            url
+          });
+
+          urlDb.save((err, url) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(url);
+              let shortUrl = shorteningAlgo.shortUrl(url.id);
+              console.log(shortUrl);
+              console.log(url._id);
+              Url.findByIdAndUpdate(
+                { _id: url._id },
+                { $set: { shortUrl: shortUrl } },
+                { new: true },
+                (err, doc) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    res.send(doc.shortUrl);
+                  }
+                }
+              );
+            }
+          });
+        } else {
+          res.send(foundUrl.shortUrl);
+        }
       }
-    }
-  });
+    });
+  } catch (e) {
+    next(e);
+  }
 });
 
 app.get("*", (req, res) => {
